@@ -52,161 +52,51 @@ function addButtonEventListeners(buttons) {
                 can_put_dot = true;
                 break;
             case '0':
-                if (operation_done){
-                    break;
-                }
-                current_operation += '0';
-                operation.innerHTML = current_operation;
-                can_put_dot = true;
+                numbers('0');
                 break;
             case '1':
-                if (operation_done){
-                    break;
-                }
-                current_operation += '1';
-                operation.innerHTML = current_operation;
-                can_put_dot = true;
+                numbers('1');
                 break;
             case '2':
-                if (operation_done){
-                    break;
-                }
-                current_operation += '2';
-                operation.innerHTML = current_operation;
-                can_put_dot = true;
+                numbers('2');
                 break;
             case '3':
-                if (operation_done){
-                    break;
-                }
-                current_operation += '3';
-                operation.innerHTML = current_operation;
-                can_put_dot = true;
+                numbers('3');
                 break;
             case '4':
-                if (operation_done){
-                    break;
-                }
-                current_operation += '4';
-                operation.innerHTML = current_operation;
-                can_put_dot = true;
+                numbers('4');
                 break;
             case '5':
-                if (operation_done){
-                    break;
-                }
-                current_operation += '5';
-                operation.innerHTML = current_operation;
-                can_put_dot = true;
+                numbers('5');
                 break;
             case '6':
-                if (operation_done){
-                    break;
-                }
-                current_operation += '6';
-                operation.innerHTML = current_operation;
-                can_put_dot = true;
+                numbers('6');
                 break;
             case '7':
-                if (operation_done){
-                    break;
-                }
-                current_operation += '7';
-                operation.innerHTML = current_operation;
-                can_put_dot = true;
+                numbers('7');
                 break;
             case '8':
-                if (operation_done){
-                    break;
-                }
-                current_operation += '8';
-                operation.innerHTML = current_operation;
-                can_put_dot = true;
+                numbers('8');
                 break;
             case '9':
-                if (operation_done){
-                    break;
-                }
-                current_operation += '9';
-                operation.innerHTML = current_operation;
-                can_put_dot = true;
+                numbers('9');
                 break;
             case '+':
-                if (is_infinity){
-                    break;
-                }
-                
-                if (operation_done){
-                    operation_done = false;
-                    current_operation = result.textContent.toString();
-                }
-                if (!has_operation && current_operation.length > 0){
-                    current_operation += ' + ';
-                    has_operation = true;
-                    operation.innerHTML = current_operation;
-                    can_put_dot = false;
-                }
+                operations('+');
                 break;
             case '-':
-                if (is_infinity){
-                    break;
-                }
-                if (operation_done){
-                    operation_done = false;
-                    current_operation = result.textContent.toString();
-                }
-                if (!has_operation && current_operation.length > 0){
-                    current_operation += ' - ';
-                    has_operation = true;
-                    operation.innerHTML = current_operation;
-                    can_put_dot = false;
-                }
+                operations('-');
                 break;
             case '*':
-                if (is_infinity){
-                    break;
-                }
-                if (operation_done){
-                    operation_done = false;
-                    current_operation = result.textContent.toString();
-                }
-                if (!has_operation && current_operation.length > 0){
-                    current_operation += ' × ';
-                    has_operation = true;
-                    operation.innerHTML = current_operation;
-                    can_put_dot = false;
-                }
+                operations('×');
                 break;
             case '/':
-                if (is_infinity){
-                    break;
-                }
-                if (operation_done){
-                    operation_done = false;
-                    current_operation = result.textContent.toString();
-                }
-                if (!has_operation && current_operation.length > 0){
-                    current_operation += ' ÷ ';
-                    has_operation = true;
-                    operation.innerHTML = current_operation;
-                    can_put_dot = false;
-                }
+                operations('÷');
                 break;
             case '^':
-                if (is_infinity){
-                    break;
-                }
-                if (operation_done && !is_infinity){
-                    operation_done = false;
-                    current_operation = result.textContent.toString();
-                }
-                if (!has_operation && current_operation.length > 0){
-                    current_operation += ' ^ ';
-                    has_operation = true;
-                    operation.textContent = current_operation;
-                    can_put_dot = false;
-                }
+                operations('^');
                 break;
+
             case 'dot':
                 if (operation_done){
                     break;
@@ -250,6 +140,9 @@ function addButtonEventListeners(buttons) {
                         res = 'infinity';
                         is_infinity = true;
                     }
+                    else if (res.toString().includes('.')){
+                        res = parseFloat(res.toFixed(Math.min(10,res.toString().length)));
+                    }
                     result.textContent = res;
                     operation_done = true;
                     has_operation = false;
@@ -260,6 +153,36 @@ function addButtonEventListeners(buttons) {
         }
       });
     });
+}
+
+function numbers(n) {
+    if (operation_done){
+        return;
+    }
+    current_operation += n;
+    if (current_operation.length >= 20){
+        operation.textContent = 'Number too long';
+        operation_done = true;
+        return;
+    }    
+    operation.textContent = current_operation;
+    can_put_dot = true;
+}
+
+function operations(op) {
+    if (is_infinity){
+        return;
+    }
+    if (operation_done && !is_infinity){
+        operation_done = false;
+        current_operation = result.textContent.toString();
+    }
+    if (!has_operation && current_operation.length > 0){
+        current_operation += ' ' + op + ' ';
+        has_operation = true;
+        operation.textContent = current_operation;
+        can_put_dot = false;
+    }
 }
 
 addButtonEventListeners(buttons);
