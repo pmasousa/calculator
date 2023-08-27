@@ -10,6 +10,7 @@
 body {
     font-family: 'Lato', sans-serif;
     background: #78c3e9;
+    user-select: none;
 }
 
 
@@ -47,12 +48,14 @@ body {
     font-size: 1.5rem;
     padding-top: 10px;
     color: #f3f4c7;
+    overflow: wrap;
 }
 
 .result {
     height: 55%;
     text-align: right;
     font-size: 2.5rem;
+    overflow: hidden;
 }
 
 .calc-buttons {
@@ -97,4 +100,9 @@ a {
     text-decoration: none;
     color: #f3f4c7;
     font-weight: 600;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
